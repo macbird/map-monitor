@@ -3,6 +3,8 @@ import React, {useState} from "react";
 import "./Agent.css"
 import { motion } from "framer-motion";
 import ConfirmAlert from "../components/modal/ConfirmAlert"
+import {IAlert} from "../context/AppProvider/types"
+import {useApp} from "../context/AppProvider/useApp"
 
 
 const Agent = () => {
@@ -134,18 +136,31 @@ const Agent = () => {
         },
 
     ])
+    const {openAlert, closeAlert} = useApp()
+
     const save = () => {
-        console.log("Saving")
+        console.log('Saving')
     }
-    const [confirmDelete, setConfirmDelete] = useState<any | null>();
-    const deletar = () => {
-        console.log("Deletando", confirmDelete)
-        close();
+    const deletar = (id: string, nome: string) => {
+         openAlert({
+            visible: true,
+            description:`Os dados do agente <strong> "${nome}"</strong> serão excluidos permanentemente, Deseja continuar?`,
+            title: "Deseja excluir este agente",
+            options:{
+                cancelButtonLabel:"Não",
+                confirmButtonLabel:"Sim",
+                confirmButtonColor: "orange",
+                icon: "error"
+            },
+            onConfirm: ()=>{
+                console.log("Excluindo agente")
+                closeAlert()
+            }
+
+        })
     }
-    const close = () => {
-        setConfirmDelete(null)
-    };
-    const description =`Os dados do agente <strong> "${confirmDelete?.nome}"</strong> serão excluidos permanentemente, Deseja continuar?`
+
+
     function mphone(v:string) {
         var r = v.replace(/\D/g,"");
         r = r.replace(/^0/,"");
@@ -169,12 +184,7 @@ const Agent = () => {
     }
     return (
         <>
-            {confirmDelete && <ConfirmAlert title="Deseja excluir este agente" options={{
-                cancelButtonLabel:"Não",
-                confirmButtonLabel:"Sim",
-                confirmButtonColor: "orange",
-                icon: "error"
-            }} description={description} onCancel={close} onConfirm={deletar}/>}
+
             <div className="container mx-auto ">
                 <div>
 
@@ -259,7 +269,7 @@ const Agent = () => {
                                             >
                                                 <FaEdit/>
                                             </button>
-                                            <button onClick={()=>setConfirmDelete(agente)}
+                                            <button onClick={()=>deletar(agente.id, agente.nome)}
                                                 type="button"
                                                 className="inline-block text-gray-500 hover:text-gray-700"
                                             >

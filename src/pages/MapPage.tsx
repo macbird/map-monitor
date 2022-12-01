@@ -244,6 +244,7 @@ const MapPage = forwardRef(({onInfoChange}, ref) => {
 
 
     return (
+
             <div className="map">
                 {!isLoaded ? (<></>) : (
                     <GoogleMap

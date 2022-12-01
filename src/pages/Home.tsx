@@ -15,134 +15,103 @@ import  {motion} from 'framer-motion'
 import Agente from "./Agente"
 import {AuthContext} from "../context/AuthProvider"
 import {useAuth} from '../context/AuthProvider/useAuth'
-function App() {
-    const Menu = () => {
-        const [bookmarksChecked, setBookmarksChecked] = useState(true);
-        const [urlsChecked, setUrlsChecked] = useState(false);
+import {useApp} from '../context/AppProvider/useApp'
+const Menu = () => {
+    const [bookmarksChecked, setBookmarksChecked] = useState(true);
+    const [urlsChecked, setUrlsChecked] = useState(false);
+    const app = useApp();
 
-        return (
-            <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild>
-                    <button className="IconButton">
-                        <HamburgerMenuIcon/>
-                    </button>
-                </DropdownMenu.Trigger>
+    return (
+        <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild>
+                <button className="IconButton">
+                    <HamburgerMenuIcon/>
+                </button>
+            </DropdownMenu.Trigger>
 
-                <DropdownMenu.Portal>
-                    <DropdownMenu.Content className="DropdownMenuContent" sideOffset={5} align="start">
-                        <DropdownMenu.Item className="DropdownMenuItem" onClick={()=>openDialog('agente')}>
-                            Agentes <div className="RightSlot">⌘+N</div>
-                        </DropdownMenu.Item>
-                        <DropdownMenu.Item className="DropdownMenuItem" onClick={()=>openDialog('dispositivos')}>
-                            Dispositivos <div className="RightSlot">⌘+N</div>
-                        </DropdownMenu.Item>
-                        <DropdownMenu.Item className="DropdownMenuItem">
-                            ESF <div className="RightSlot">⌘+N</div>
-                        </DropdownMenu.Item>
-                        <DropdownMenu.Arrow className="DropdownMenuArrow"/>
-                    </DropdownMenu.Content>
-                </DropdownMenu.Portal>
-            </DropdownMenu.Root>
-        );
-    };
-
+            <DropdownMenu.Portal>
+                <DropdownMenu.Content className="DropdownMenuContent" sideOffset={5} align="start">
+                    <DropdownMenu.Item className="DropdownMenuItem" onClick={()=>app.openModal({
+                        component: <Agente/>,
+                        title: "Lista de Agentes",
+                        visible: true,
+                        disableClosed: true
+                    })}>
+                        Agentes <div className="RightSlot">⌘+N</div>
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item className="DropdownMenuItem" onClick={()=>app.openModal({
+                        component: <FormProfile2/>,
+                        title: "Lista de Agentes",
+                        visible: true
+                    })}>
+                        Dispositivos <div className="RightSlot">⌘+N</div>
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item className="DropdownMenuItem">
+                        ESF <div className="RightSlot">⌘+N</div>
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Arrow className="DropdownMenuArrow"/>
+                </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+        </DropdownMenu.Root>
+    );
+};
+const AvatarMenu = () => {
     const auth = useAuth();
-    const AvatarMenu = () => {
-        const [bookmarksChecked, setBookmarksChecked] = useState(true);
-        const [urlsChecked, setUrlsChecked] = useState(false);
-        const [person, setPerson] = useState("pedro");
-        return (
-            <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild>
-                    <Avatar.Root className="AvatarRoot">
-                        <Avatar.Image
-                            className="AvatarImage"
-                            src="https://avatars.githubusercontent.com/u/29990147?v=4"
-                            alt="Colm Tuite"
-                        />
-                        <Avatar.Fallback className="AvatarFallback" delayMs={600}>
-                            CT
-                        </Avatar.Fallback>
-                    </Avatar.Root>
-                </DropdownMenu.Trigger>
+    const [bookmarksChecked, setBookmarksChecked] = useState(true);
+    const [urlsChecked, setUrlsChecked] = useState(false);
+    const [person, setPerson] = useState("pedro");
+    return (
+        <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild>
+                <Avatar.Root className="AvatarRoot">
+                    <Avatar.Image
+                        className="AvatarImage"
+                        src="https://avatars.githubusercontent.com/u/29990147?v=4"
+                        alt="Colm Tuite"
+                    />
+                    <Avatar.Fallback className="AvatarFallback" delayMs={600}>
+                        CT
+                    </Avatar.Fallback>
+                </Avatar.Root>
+            </DropdownMenu.Trigger>
 
-                <DropdownMenu.Portal>
-                    <DropdownMenu.Content
-                        className="DropdownMenuContent"
-                        sideOffset={5}
-                        align="end"
+            <DropdownMenu.Portal>
+                <DropdownMenu.Content
+                    className="DropdownMenuContent"
+                    sideOffset={5}
+                    align="end"
+                >
+                    <DropdownMenu.Item
+                        className="DropdownMenuItem"
+                        onClick={() => {
+                            alert();
+                        }}
                     >
-                        <DropdownMenu.Item
-                            className="DropdownMenuItem"
-                            onClick={() => {
-                                alert();
-                            }}
-                        >
-                            Profile
-                        </DropdownMenu.Item>
-                        <DropdownMenu.Item className="DropdownMenuItem">
-                            Configurações
-                        </DropdownMenu.Item>
+                        Profile
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item className="DropdownMenuItem">
+                        Configurações
+                    </DropdownMenu.Item>
 
-                        <DropdownMenu.Item onClick={auth.logout} className="DropdownMenuItem">
-                            Sair
-                        </DropdownMenu.Item>
+                    <DropdownMenu.Item onClick={auth.logout} className="DropdownMenuItem">
+                        Sair
+                    </DropdownMenu.Item>
 
-                        <DropdownMenu.Arrow className="DropdownMenuArrow" />
-                    </DropdownMenu.Content>
-                </DropdownMenu.Portal>
-            </DropdownMenu.Root>
-        );
-    };
+                    <DropdownMenu.Arrow className="DropdownMenuArrow" />
+                </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+        </DropdownMenu.Root>
+    );
+};
 
-
+function App() {
+    const auth = useAuth();
     const childRef = useRef();
-
     type ModalState = {
         component: string,
         title: string,
     }
-    const [modal, setModal] = useState<ModalState>({});
     const [infoAgente, setInfoAgente] = useState<any>();
-
-    type ModalOptions = {
-        title: string,
-        saveButton?:boolean,
-        avoidClose?:boolean
-        cancelButton?:boolean,
-        saveLabel?: string
-        cancelLabel?: string,
-        component: any
-    }
-    const [modalOptions, setModalOptions] = useState<ModalOptions>()
-
-    const openDialog = (c:string): void  => {
-
-        var modal ={
-            agente:{
-                title: "Agentes ",
-                saveButton:false,
-                cancelButton:false,
-                avoidClose:true,
-                saveLabel: "Salvar",
-                component: <Agente ref={childRef}/>
-            },
-            dispositivos:{
-                title: "Dispositivos",
-                saveButton:false,
-                cancelButton:false,
-                saveLabel: "Salvar",
-                component: <FormProfile2/>
-            }
-        }
-        setModalOpen(true);
-        setModalOptions(modal[c]);
-    }
-
-    const Content = () =>{
-        return modalOptions['component'];
-    }
-
     const reset = () => {
         childRef.current.reset();
         setInfoAgente(null)
@@ -169,15 +138,10 @@ function App() {
 
     }
 
-
-
-    const [modalOpen, setModalOpen] = useState(false);
-    const close = () => setModalOpen(false);
     return (
         <>
             <Menu/>
             {infoAgente?(<>
-
 
                 <motion.div variants={dropIn} initial="hidden" animate="visible" exit="exit" id="authentication-modal" aria-hidden="true"
                      className="absolute top-32 left-12 z-50 overflow-y-auto overflow-x-hidden    ">
@@ -224,9 +188,7 @@ function App() {
                 ):null}
 
             <AvatarMenu/>
-            {modalOpen && <Modal childRef={childRef} modalOpen={modalOpen} options={modalOptions} handleClose={close} >
-                <Content/>
-            </Modal>}
+
 
             <MapPage onInfoChange={setInfoAgente} ref={childRef}/>
 

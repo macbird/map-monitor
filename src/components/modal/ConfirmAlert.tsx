@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import "./ConfirmAlert.css"
+import {useApp} from "../../context/AppProvider/useApp"
 const Icon =({type}) => {
-    console.log(type)
     let icons = {
         error:
         <svg className="w-12 h-12 fill-current text-red-500"
@@ -32,11 +32,14 @@ const Icon =({type}) => {
     }
     return icons[type];
 }
-const Alert = ({onCancel, onConfirm,title, description, options}) => {
-    var color = `bg-${options.confirmButtonColor || "red"}-500`;
-    var colorHover = `bg-${options.confirmButtonColor || "red"}-600`;
+const Alert = () => {
+    const {alert, ...app} = useApp()
+    const {options, title, description} = alert
+    var color = `bg-${options?.confirmButtonColor || "red"}-500`;
+    var colorHover = `bg-${options?.confirmButtonColor || "red"}-600`;
 
     return(
+        alert.visible?
         <div className="backdrop absolute bg-orange ">
             <motion.div initial={{ opacity: 0,
                 y: 60, scale: 0.5 }}
@@ -54,27 +57,28 @@ const Alert = ({onCancel, onConfirm,title, description, options}) => {
                 <div className="flex flex-col p-5 rounded-lg shadow bg-white">
                     <div className="flex flex-col items-center text-center">
 
-                        <Icon type={options.icon}/>
+                        {options && options?.icon && < Icon type={options?.icon}/>}
 
                         <h2 className="mt-2 font-semibold text-gray-800">{title}</h2>
                         <p className="mt-2 text-sm text-gray-600 leading-relaxed"><p dangerouslySetInnerHTML={{__html: description}}/></p>
                     </div>
 
                     <div className="flex items-center mt-3">
-                        <button onClick={onCancel}
+                        <button onClick={app.closeAlert}
                                 className="flex-1 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-medium rounded-md">
-                            {options.cancelButtonLabel || "Cancel"}
+                            {options?.cancelButtonLabel || "Cancel"}
                         </button>
 
-                        <button onClick={onConfirm}
+                        <button onClick={alert.onConfirm}
                                 className={`flex-1 px-4 py-2 ml-2 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-md`}>
-                            {options.confirmButtonLabel || "Agree"}
+                            {options?.confirmButtonLabel || "Agree"}
                         </button>
                     </div>
                 </div>
 
             </motion.div>
-        </div>
+        </div>:
+        <></>
     )
 
 }

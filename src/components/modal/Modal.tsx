@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import Backdrop from "./Backdrop";
 import {forwardRef} from 'react';
+import {useApp} from "../../context/AppProvider/useApp"
 import './Modal.css'
 const dropIn = {
     hidden: {
@@ -24,14 +25,14 @@ const dropIn = {
 };
 
 
-const Modal = ({children, childRef, handleClose, options, text }) => {
+const Modal = () => {
 
-    const save = () => {
-        childRef.current.save();
-    }
+    const {modal, ...app} = useApp()
+
 
     return (
-        <Backdrop onClick={options.avoidClose?null:handleClose}>
+        modal.visible?
+        <Backdrop onClick={!modal.disableClosed && app.closeModal}>
             <motion.div
                 onClick={(e) => e.stopPropagation()}
 
@@ -44,8 +45,8 @@ const Modal = ({children, childRef, handleClose, options, text }) => {
                     <div
                         className="flex flex-row justify-between p-6 bg-white border-b border-gray-200 rounded-tl-lg rounded-tr-lg"
                     >
-                        <p className="font-semibold text-gray-800">{options.title}</p>
-                        <svg onClick={handleClose}
+                        <p className="font-semibold text-gray-800">{modal.title}</p>
+                        <svg onClick={app.closeModal}
                             className="w-6 h-6"
                             fill="none"
                             stroke="currentColor"
@@ -61,13 +62,14 @@ const Modal = ({children, childRef, handleClose, options, text }) => {
                         </svg>
                     </div>
                     <div className="flex flex-col  bg-gray-50">
-                        {children}
+                        {modal.component}
                     </div>
-                    
+
                 </div>
 
             </motion.div>
-        </Backdrop>
+        </Backdrop>:
+        <></>
     );
 };
 
