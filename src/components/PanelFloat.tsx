@@ -1,10 +1,11 @@
 import React from 'react';
 import {useApp} from '../context/AppProvider/useApp'
-import  {motion} from 'framer-motion'
+import {motion} from 'framer-motion'
+
 const PanelFloat = () => {
     const {panel, ...app} = useApp()
-    const {title,component} = panel
-    const dropIn ={
+    const {title, component} = panel
+    const dropIn = {
         hidden: {
             y: "-100vh",
             opacity: 0,
@@ -12,27 +13,28 @@ const PanelFloat = () => {
         visible: {
             y: "0",
             opacity: 1,
-            transition:{
+            transition: {
                 duration: 0.1,
                 type: "spring",
                 damping: 25,
                 stiffness: 500
             }
         },
-        exit:{
+        exit: {
             y: "100vh",
             opacity: 0,
         }
 
     }
 
-    const close = () =>{
+    const close = () => {
         app.closePanelFloat()
         panel.onClose()
     }
-    return(
-        panel.visible?
-            <motion.div variants={dropIn} initial="hidden" animate="visible" exit="exit" id="authentication-modal" aria-hidden="true"
+    return (
+        panel.visible ?
+            <motion.div variants={dropIn} initial="hidden" animate="visible" exit="exit" id="authentication-modal"
+                        aria-hidden="true"
                         className="absolute top-32 left-12 z-50 overflow-y-auto overflow-x-hidden    ">
                 <div className="relative w-full max-w-md h-full md:h-auto">
                     <div className=" bg-white rounded-lg shadow dark:bg-gray-700">
@@ -53,7 +55,7 @@ const PanelFloat = () => {
                         {component}
                     </div>
                 </div>
-            </motion.div>:<></>
+            </motion.div> : <></>
     )
 }
 

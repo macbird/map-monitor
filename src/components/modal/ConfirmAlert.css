@@ -1,4 +1,4 @@
-.alert{
+.alert {
     position: absolute;
     z-index: 1000;
     top: 50%;
@@ -8,6 +8,7 @@
     margin-top: -150px;
     margin-left: -200px;
 }
+
 .backdrop {
     z-index: 1000;
     position: absolute;

@@ -1,5 +1,5 @@
-const FormProfile =()=> {
-    return(
+const FormProfile = () => {
+    return (
         <>
             <h1>Testado</h1>
         </>

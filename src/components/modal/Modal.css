@@ -1,5 +1,5 @@
-
 @import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap);
+
 @import-normalize;
 
 
@@ -89,7 +89,6 @@ input[type="text"]:focus {
 }
 
 
-
 ::placeholder {
     font-style: italic;
 }
@@ -102,8 +101,6 @@ input[type="text"]:focus {
 }
 
 
-
-
 .bottom {
     justify-content: flex-end;
 }
@@ -111,7 +108,6 @@ input[type="text"]:focus {
 .top {
     justify-content: flex-start;
 }
-
 
 
 .notification-text {
@@ -157,6 +153,7 @@ input[type="text"]:focus {
     button {
         cursor: pointer;
     }
+
     /* .modal {
       width: 750px;
       height: 300px;
@@ -165,6 +162,7 @@ input[type="text"]:focus {
     input {
         width: calc(25vw);
     }
+
     h1 {
         color: #ff9d00;
         font-size: 250%;

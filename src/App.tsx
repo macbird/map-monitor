@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {AuthProvider} from './context/AuthProvider'
 import {AppProvider} from './context/AppProvider'
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
@@ -10,9 +10,10 @@ import ConfirmAlert from './components/modal/ConfirmAlert'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import PanelFloat from './components/PanelFloat'
-function App(){
-    
-    
+
+function App() {
+
+
     return (
 
         <AppProvider>
@@ -25,12 +26,12 @@ function App(){
                                     <Home/>
                                 </ProtectedLayout>
                             }/>
-                            <Route path='/login' element={ <Login/>}/>
+                            <Route path='/login' element={<Login/>}/>
                         </Routes>
                     </BrowserRouter>
-                    <Modal />
-                    <Loading />
-                    <ConfirmAlert />
+                    <Modal/>
+                    <Loading/>
+                    <ConfirmAlert/>
                     <PanelFloat/>
                     <Snackbar/>
                 </>

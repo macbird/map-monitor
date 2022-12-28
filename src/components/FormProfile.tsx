@@ -1,5 +1,6 @@
-import {forwardRef,useImperativeHandle} from 'react'
-const FormProfile = forwardRef((options, ref)=> {
+import {forwardRef, useImperativeHandle} from 'react'
+
+const FormProfile = forwardRef((options, ref) => {
 
     useImperativeHandle(ref, () => ({
 
@@ -8,7 +9,7 @@ const FormProfile = forwardRef((options, ref)=> {
         }
 
     }));
-    return(
+    return (
         <>
             <p className="mb-2 font-semibold text-gray-700">Bots Message</p>
             <textarea

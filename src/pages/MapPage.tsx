@@ -13,7 +13,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {useApp} from "../context/AppProvider/useApp"
 import {GoCalendar} from "react-icons/go";
-import {getInitialMarkers, getAtividadeByAgente} from "../service/api"
+import {getAtividadeByAgente, getInitialMarkers} from "../service/api"
+
 type position = {
     lat: number,
     lng: number
@@ -102,24 +103,26 @@ const InfoAgent = ({info}) => {
     console.log("info", info)
     return (
 
-        <><div className="flex mx-auto sm:mr-10 sm:m-0">
-            <div
-                className="items-center justify-center w-20 h-20 m-auto mr-4 sm:w-24 sm:h-24">
-                <img alt="profile"
-                     src={info.base64}
-                     className="object-cover w-20 h-20 mx-auto rounded-full sm:w-24 sm:h-24"/>
+        <>
+            <div className="flex mx-auto sm:mr-10 sm:m-0">
+                <div
+                    className="items-center justify-center w-20 h-20 m-auto mr-4 sm:w-24 sm:h-24">
+                    <img alt="profile"
+                         src={info.base64}
+                         className="object-cover w-20 h-20 mx-auto rounded-full sm:w-24 sm:h-24"/>
+                </div>
             </div>
-        </div>
             <div className="flex flex-col items-start w-full m-auto sm:flex-row">
-                <div className="pb-6 px-6 flex flex-row mt-4"  >
+                <div className="pb-6 px-6 flex flex-row mt-4">
                     <GoCalendar size={30} className="mr-4"/>
                     21/11/2022 8:00
                 </div>
-                <div className="pb-6 px-6 flex flex-row mt-4"  >
+                <div className="pb-6 px-6 flex flex-row mt-4">
                     <GoCalendar size={30} className="mr-4"/>
                     21/11/2022 13:00
                 </div>
-            </div></>
+            </div>
+        </>
     );
 }
 
@@ -148,14 +151,14 @@ const MapPage = () => {
 
     const [markers, setMarker] = useState<any[]>([])
 
-    const loadMarkers = async () =>{
+    const loadMarkers = async () => {
         openLoading()
         const data = await getInitialMarkers();
         closeLoading()
         return data
     }
     useEffect(() => {
-        const getMarker = async()=>{
+        const getMarker = async () => {
             var data = await loadMarkers()
             console.log("DATA", data)
             setMarker(data)
@@ -164,7 +167,7 @@ const MapPage = () => {
 
     }, [])
 
-    function sleep(ms:number) {
+    function sleep(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
@@ -192,7 +195,7 @@ const MapPage = () => {
 
         setMarker([startMarker, stopMarker])
 
-        setPolyline(atividade.map((atividade:any) => {
+        setPolyline(atividade.map((atividade: any) => {
             return {
                 lat: atividade.lat,
                 lng: atividade.lng
@@ -202,7 +205,7 @@ const MapPage = () => {
             visible: true,
             component: <InfoAgent info={info}/>,
             title: "Atividade",
-            onClose: async() => {
+            onClose: async () => {
                 const data = await loadMarkers();
                 setMarker(data)
                 setPolyline([])
@@ -215,9 +218,9 @@ const MapPage = () => {
         for (const a of atividade) {
             console.log("Fire")
             // @ts-ignore
-            setRoute(old => [...old,{
-                lat:a.lat, lng:a.lng
-            }] );
+            setRoute(old => [...old, {
+                lat: a.lat, lng: a.lng
+            }]);
             await sleep(50);
         }
         console.log("route", route);
@@ -226,7 +229,7 @@ const MapPage = () => {
     }
 
     const [map, setMap] = useState<any>(null);
-    const onLoad = useCallback((map:any) => setMap(map), []);
+    const onLoad = useCallback((map: any) => setMap(map), []);
 
     useEffect(() => {
         if (map) {
@@ -277,14 +280,14 @@ const MapPage = () => {
                         return (<MarkerF key={data.id}
                             //animation={window.google.maps.Animation.DROP}
                                          icon={
-                                             data.info && data.info.base64?{
-                                                 size: new google.maps.Size(40,40),
-                                                 scaledSize: new google.maps.Size(40,40),
-                                                 origin: new google.maps.Point(0,0),
+                                             data.info && data.info.base64 ? {
+                                                 size: new google.maps.Size(40, 40),
+                                                 scaledSize: new google.maps.Size(40, 40),
+                                                 origin: new google.maps.Point(0, 0),
                                                  url: data.info?.base64,
-                                                 anchor: new google.maps.Point(20,20),
+                                                 anchor: new google.maps.Point(20, 20),
 
-                                             }:{
+                                             } : {
                                                  path: icon(data.icon)[4] as string,
                                                  fillColor: data.color,
                                                  fillOpacity: 1,
@@ -299,8 +302,8 @@ const MapPage = () => {
 
 
                                          }
-                                        onClick={() => handleActiveMarker(data.id)}
-                                        position={position}
+                                         onClick={() => handleActiveMarker(data.id)}
+                                         position={position}
                         >
                             {activeMarker === data.id && data.info ? (
                                 <InfoWindowF position={position} onCloseClick={() => setActiveMarker(null)}>

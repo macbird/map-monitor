@@ -2,6 +2,7 @@ export interface IUser {
     login?: string;
     token?: string;
 }
+
 export interface IContext {
     user: any;
     authenticated: boolean;
@@ -10,5 +11,5 @@ export interface IContext {
 }
 
 export interface IAuthProvider {
-    children : JSX.Element;
+    children: JSX.Element;
 }
