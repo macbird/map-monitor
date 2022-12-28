@@ -4,13 +4,19 @@ import {AppProvider} from './context/AppProvider'
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import {ProtectedLayout} from './components/ProtectedLayout'
 import Modal from './components/modal/Modal'
+import Snackbar from './components/Snackbar'
+import Loading from './components/modal/Loading'
 import ConfirmAlert from './components/modal/ConfirmAlert'
 import Home from './pages/Home'
 import Login from './pages/Login'
+import PanelFloat from './components/PanelFloat'
 function App(){
+    
+    
     return (
-        <AuthProvider>
-            <AppProvider>
+
+        <AppProvider>
+            <AuthProvider>
                 <>
                     <BrowserRouter>
                         <Routes>
@@ -23,10 +29,14 @@ function App(){
                         </Routes>
                     </BrowserRouter>
                     <Modal />
+                    <Loading />
                     <ConfirmAlert />
+                    <PanelFloat/>
+                    <Snackbar/>
                 </>
-            </AppProvider>
-        </AuthProvider>
+            </AuthProvider>
+        </AppProvider>
+
 
     )
 }

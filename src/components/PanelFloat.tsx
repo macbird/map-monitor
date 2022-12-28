@@ -2,8 +2,8 @@ import React from 'react';
 import {useApp} from '../context/AppProvider/useApp'
 import  {motion} from 'framer-motion'
 const PanelFloat = () => {
-    const {panelFloat, ...app} = useApp()
-    const {title,component} = panelFloat
+    const {panel, ...app} = useApp()
+    const {title,component} = panel
     const dropIn ={
         hidden: {
             y: "-100vh",
@@ -26,13 +26,17 @@ const PanelFloat = () => {
 
     }
 
+    const close = () =>{
+        app.closePanelFloat()
+        panel.onClose()
+    }
     return(
-        panelFloat.visible?
+        panel.visible?
             <motion.div variants={dropIn} initial="hidden" animate="visible" exit="exit" id="authentication-modal" aria-hidden="true"
                         className="absolute top-32 left-12 z-50 overflow-y-auto overflow-x-hidden    ">
                 <div className="relative w-full max-w-md h-full md:h-auto">
                     <div className=" bg-white rounded-lg shadow dark:bg-gray-700">
-                        <button type="button" onClick={app.closePanelFloat}
+                        <button type="button" onClick={close}
                                 className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
                                 data-modal-toggle="authentication-modal">
                             <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -46,9 +50,7 @@ const PanelFloat = () => {
                         <div className="py-6 px-6 lg:px-8">
                             <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">{title}</h2>
                         </div>
-
                         {component}
-
                     </div>
                 </div>
             </motion.div>:<></>

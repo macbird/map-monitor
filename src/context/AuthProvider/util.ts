@@ -15,16 +15,16 @@ export async function LoginRequest(login: string, password: string){
 
 export async function GetCurrentUser(){
     try{
-        const request = await Api.get('api/usuarios/current')
+        const request = await Api.get('/api/usuarios/current')
         return request.data;
     }
     catch (error){
-
+        console.log(error);
     }
 }
 
-export function setTokenLocalStorage(user: IUser | null){
-    localStorage.setItem('token', JSON.stringify(user))
+export function setTokenLocalStorage(token: string){
+    localStorage.setItem('token', token)
 }
 
 export function isAuthenticated(){
